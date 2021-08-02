@@ -5,23 +5,28 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
-from twt_rw import *
 import time
+from datetime import datetime
+
 
 options = selenium.webdriver.chrome.options.Options()
 options.headless = True
 options.add_argument('log-level=3')
 options.add_experimental_option('excludeSwitches', ['enable-logging'])
+# path do webdriver, o mesmo pode ser baixado em: https://chromedriver.chromium.org/downloads
 driver = selenium.webdriver.Chrome(executable_path=r"C:\webdriver\chromedriver.exe", options=options)
 
-login = 'ewerton.marschalk@redeunifique.com.br'
-senha = '32071996ca536Ewe6'
-compatible_ztes = ['F660','F670L','F670']
-passwords = ['glock9mm','Unisc202@']
+# Dados de acesso ao sistema de ativação:
+login = ''
+senha = ''
+
+
+compatible_ztes = ['F660','F670L','F670','F612W']
+
+# array com usuários e senhas dos ZTEs
+passwords = ['','']
 users = ['multipro','admin']
 
-
-Clientes = read_file('clientes.txt')
 
 def get_ip(pppoe):
     url = 'http://189.45.192.17/daloinfo/index.php?username=' + pppoe
@@ -155,15 +160,39 @@ def adicionar_iptv(sn):
     except:
         print('Erro ao adicionar o IPTV no Sistema de Ativação')
 
+def read_file(file_name):
+    f = open(file_name, 'r')
+    values = f.readlines()
+    return values
+
+def write_to_log(string):
+    time = datetime.now().strftime('%d/%m/%Y %H:%M')
+    string = time + ': ' + string
+
+    # Open the file in append & read mode ('a+')
+    with open("log.txt", "a+") as file_object:
+        # Move read cursor to the start of file.
+        file_object.seek(0)
+        # If file is not empty then append '\n'
+        data = file_object.read(100)
+        if len(data) > 0:
+            file_object.write("\n")
+        # Append text at the end of file
+        file_object.write(string)
+
 
 if __name__ == '__main__':
+    # arquivo deve existir, estar presente na pasta onde estiver rodando o programa, e contar o PPPoE dos clientes 1 por linha
+    Clientes = read_file('clientes.txt')
+
+    # para dividir uma execução de outra no LOG
     write_to_log('##################################################################################################')
     counter = 0
     lenght = len(Clientes)
 
     while counter < lenght:
         cliente = Clientes[counter].strip()
-        print('####################################################################################################')
+        print('# ONT {0}/{1} ##############################################################################################'.format(counter + 1,lenght))
         print('{0}: Iniciando configurações no PPPoE: {1}'.format(time.strftime("%H:%M:%S"), cliente))
         if login_zte(cliente):
             sn = get_sn()
@@ -176,13 +205,12 @@ if __name__ == '__main__':
             write_to_log('{0} - {1} - OK'.format(cliente,sn))
 
         else:
-            print('{0}: Erro ao realizar configurações no PPPoE: {1}'.format(time.strftime("%H:%M:%S"), cliente))
+            print('{0}: Erro ao realizar configurações no PPPoE: {1}, cliente desconectado'.format(time.strftime("%H:%M:%S"), cliente))
             write_to_log('{0} - Fail'.format(cliente))
         print()
         counter = counter + 1
 
     # close webdriver
-
     driver.quit()
     driver = None
 
