@@ -17,8 +17,8 @@ options.add_experimental_option('excludeSwitches', ['enable-logging'])
 driver = selenium.webdriver.Chrome(executable_path=r"C:\webdriver\chromedriver.exe", options=options)
 
 # Dados de acesso ao sistema de ativação:
-login = ''
-senha = ''
+login = 'usuario'
+senha = 'senha'
 
 
 compatible_ztes = ['F660','F670L','F670','F612W']
@@ -128,16 +128,31 @@ def config_zte(pppoe):
             print('{0}: Vlan na LAN{1} Removido'.format(time.strftime("%H:%M:%S"), str(counter + 1)))
             time.sleep(1)
         except:
-            print('{0}: Erro ao deletar a vlan na LAN{1}'.format(time.strftime("%H:%M:%S"), str(counter + 1)))
+            print('{0}: Não existe vlan na LAN{1}'.format(time.strftime("%H:%M:%S"), str(counter + 1)))
         counter = counter + 1
     print('{0}: Finalizado configurações no ZTE'.format(time.strftime("%H:%M:%S")))
     return True
 
 def sa_site_login():
+    logo = None
     driver.get("http://ativacaofibra.redeunifique.com.br/")
-    driver.find_element_by_name("login").send_keys(login)
-    driver.find_element_by_name("senha").send_keys(senha)
-    driver.find_element_by_id("entrar").click()
+    try:
+        logo = driver.find_element_by_id("centro").find_element_by_tag_name("img").get_attribute("src")
+    except:
+        driver.find_element_by_name("login").send_keys(login)
+        driver.find_element_by_name("senha").send_keys(senha)
+        driver.find_element_by_id("entrar").click()
+
+    if logo == 'http://ativacaofibra.redeunifique.com.br/cadastro/img/logo2017.png':
+        return True
+    else:
+        try:
+            logo = driver.find_element_by_id("centro").find_element_by_tag_name("img").get_attribute("src")
+            if logo == 'http://ativacaofibra.redeunifique.com.br/cadastro/img/logo2017.png':
+                return True
+        except:
+            print('FALHA AO REALIZAR LOGIN NO SISTEMA DE ATIVAÇÃO, VERIFIQUE SEU USUÁRIO E SENHA NAS LINHAS 20 e 21')
+            exit()
 
 
 def remove_iptv(sn):
@@ -186,34 +201,35 @@ def write_to_log(string):
 
 
 if __name__ == '__main__':
-    # arquivo deve existir, estar presente na pasta onde estiver rodando o programa, e contar o PPPoE dos clientes 1 por linha
-    Clientes = read_file('clientes.txt')
+    if sa_site_login():
+        # arquivo deve existir, estar presente na pasta onde estiver rodando o programa, e contar o PPPoE dos clientes 1 por linha
+        Clientes = read_file('clientes.txt')
 
-    # para dividir uma execução de outra no LOG
-    write_to_log('##################################################################################################')
-    counter = 0
-    lenght = len(Clientes)
+        # para dividir uma execução de outra no LOG
+        write_to_log('##################################################################################################')
+        counter = 0
+        lenght = len(Clientes)
 
-    while counter < lenght:
-        cliente = Clientes[counter].strip()
-        print('# ONT {0}/{1} ##############################################################################################'.format(counter + 1,lenght))
-        print('{0}: Iniciando configurações no PPPoE: {1}'.format(time.strftime("%H:%M:%S"), cliente))
-        if login_zte(cliente):
-            sn = get_sn()
-            print('{0}: ZTE SN: {1}'.format(time.strftime("%H:%M:%S"), sn))
-            config_zte(cliente)
-            sa_site_login()
-            remove_iptv(sn)
-            adicionar_iptv(sn)
+        while counter < lenght:
+            cliente = Clientes[counter].strip()
+            print('# ONT {0}/{1} - {2} #'.format(counter + 1,lenght, cliente))
+            print('{0}: Iniciando configurações no PPPoE: {1}'.format(time.strftime("%H:%M:%S"), cliente))
+            if login_zte(cliente):
+                sn = get_sn()
+                print('{0}: ZTE SN: {1}'.format(time.strftime("%H:%M:%S"), sn))
+                config_zte(cliente)
+                sa_site_login()
+                remove_iptv(sn)
+                adicionar_iptv(sn)
 
-            print('{0}: Finalizando configurações no PPPoE: {1} SN: {2}'.format(time.strftime("%H:%M:%S"), cliente, sn))
-            write_to_log('{0} - {1} - OK'.format(cliente,sn))
+                print('{0}: Finalizando configurações no PPPoE: {1} SN: {2}'.format(time.strftime("%H:%M:%S"), cliente, sn))
+                write_to_log('{0} - {1} - OK'.format(cliente,sn))
 
-        else:
-            print('{0}: Erro ao realizar configurações no PPPoE: {1}'.format(time.strftime("%H:%M:%S"), cliente))
-            write_to_log('{0} - Fail'.format(cliente))
-        print()
-        counter = counter + 1
+            else:
+                print('{0}: Erro ao realizar configurações no PPPoE: {1}'.format(time.strftime("%H:%M:%S"), cliente))
+                write_to_log('{0} - Falha - Usuário está desconectado'.format(cliente))
+            print()
+            counter = counter + 1
 
     # close webdriver
     driver.quit()

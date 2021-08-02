@@ -11,3 +11,50 @@
 01/08/2021 21:36: rochaleonardo - ZTEGC8B23E67 - OK
 01/08/2021 21:37: wilmarvieira - ZTEGC4B46038 - OK
 01/08/2021 21:37: osmarinadefatima - Fail
+01/08/2021 21:38: ##################################################################################################
+01/08/2021 21:38: andreiaapf - Fail
+01/08/2021 21:38: 158263 - Fail
+01/08/2021 21:38: leleco - Fail
+01/08/2021 21:38: ufsantos - Fail
+01/08/2021 21:38: samuelalano - Fail
+01/08/2021 21:39: eniamaria - ZTEGC879878B - OK
+01/08/2021 21:39: patriciafibra1 - ZTEGC8B6DB95 - OK
+01/08/2021 21:40: mariangel - ZTEGC8924D0D - OK
+01/08/2021 21:40: taysideoliveira - ZTEGC8925086 - OK
+01/08/2021 21:41: rochaleonardo - ZTEGC8B23E67 - OK
+01/08/2021 21:41: wilmarvieira - ZTEGC4B46038 - OK
+01/08/2021 21:41: osmarinadefatima - Fail
+01/08/2021 21:41: adghk - ZTEGC8B9D5D5 - OK
+01/08/2021 21:41: oliveirafibraana - Fail
+01/08/2021 21:41: franciscojoalv - Fail
+01/08/2021 21:42: nunescorrea - ZTEGC886C41F - OK
+01/08/2021 21:42: danielamachry - ZTEGC8EF85D1 - OK
+01/08/2021 21:43: anitafibra - ZTEGC8925072 - OK
+01/08/2021 21:43: reginamaria - ZTEGC82F2497 - OK
+01/08/2021 21:44: ##################################################################################################
+01/08/2021 21:44: bvh42157 - ZTEGC8B1DD59 - OK
+01/08/2021 21:45: bvh333267 - ZTEGC8B1EC73 - OK
+01/08/2021 21:45: bvh241986 - Falha - Usuário está desconectado
+01/08/2021 21:45: bvh203162b - ZTEGC8B9D4DA - OK
+01/08/2021 21:46: bvh305485 - ZTEGC4D2B5AE - OK
+01/08/2021 21:47: robertofreitas - ZTEGC8B23628 - OK
+01/08/2021 21:47: julianaaaa - Falha - Usuário está desconectado
+01/08/2021 21:47: marlimariad - Falha - Usuário está desconectado
+01/08/2021 21:47: mariatv - Falha - Usuário está desconectado
+01/08/2021 21:47: marchidulciana - ZTEGC887928B - OK
+01/08/2021 21:48: iolitabranco - ZTEGC8349D8C - OK
+01/08/2021 21:59: ##################################################################################################
+01/08/2021 21:59: danieaww - ZTEGC85C64E2 - OK
+01/08/2021 22:00: maokaga - ZTEGC8B5229E - OK
+01/08/2021 22:00: danubiaregiane - ZTEGC8280A2E - OK
+01/08/2021 22:01: adilson.silvaa - ZTEGC879871C - OK
+01/08/2021 22:02: bvh306678 - ZTEGC831B70E - OK
+01/08/2021 22:02: bvhf330478 - ZTEGC828074A - OK
+01/08/2021 22:03: bvh214345 - ZTEGC8B543A0 - OK
+01/08/2021 22:03: bvh2144622 - ZTEGC8B6D169 - OK
+01/08/2021 22:04: bvh306273 - ZTEGC8B23F61 - OK
+01/08/2021 22:04: ##################################################################################################
+01/08/2021 22:04: a - Falha - Usuário está desconectado
+01/08/2021 22:05: ##################################################################################################
+01/08/2021 22:05: a - Falha - Usuário está desconectado
+01/08/2021 22:05: b - Falha - Usuário está desconectado
