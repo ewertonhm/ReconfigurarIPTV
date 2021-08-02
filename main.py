@@ -57,6 +57,7 @@ def access_zte(pppoe):
         driver.get(url)
         return True
     else:
+        print('{0}: Usuário {1} está desconectado'.format(time.strftime("%H:%M:%S"), pppoe))
         return False
 
 def check_is_zte(pppoe):
@@ -81,6 +82,7 @@ def login_zte(pppoe):
                     driver.switch_to.frame('mainFrame')
                     if driver.find_element_by_id('Fnt_mmHelp').text == 'Help':
                         counter_pass = -10
+                        print('{0}: Login no ZTE realizado com sucesso.'.format(time.strftime("%H:%M:%S")))
                         return True
                 except Exception as e:
                     counter_pass = counter_pass - 1
@@ -100,13 +102,15 @@ def config_zte(pppoe):
     time.sleep(0.5)
     try:
         driver.find_element_by_id('Btn_Delete1').click()
+        print('{0}: Perfil IPTV 1 Removido'.format(time.strftime("%H:%M:%S")))
     except:
-        print('{0}: Não existe IPTV 1'.format(time.strftime("%H:%M:%S")))
+        print('{0}: Não existe o Perfil IPTV 1'.format(time.strftime("%H:%M:%S")))
     time.sleep(1)
     try:
         driver.find_element_by_id('Btn_Delete0').click()
+        print('{0}: Perfil IPTV 0 Removido'.format(time.strftime("%H:%M:%S")))
     except:
-        print('{0}: Não existe IPTV 0'.format(time.strftime("%H:%M:%S")))
+        print('{0}: Não existe o Perfil IPTV 0'.format(time.strftime("%H:%M:%S")))
     time.sleep(1)
 
     ## click vlan config
@@ -121,10 +125,10 @@ def config_zte(pppoe):
             select = Select(driver.find_element_by_class_name('list_10'))
             select.select_by_value(str(counter))
             driver.find_element_by_id('delete0').click()
+            print('{0}: Vlan na LAN{1} Removido'.format(time.strftime("%H:%M:%S"), str(counter + 1)))
             time.sleep(1)
         except:
-            c = counter+1
-            print('Erro ao deletar a vlan na LAN'+str(c))
+            print('{0}: Erro ao deletar a vlan na LAN{1}'.format(time.strftime("%H:%M:%S"), str(counter + 1)))
         counter = counter + 1
     print('{0}: Finalizado configurações no ZTE'.format(time.strftime("%H:%M:%S")))
     return True
@@ -147,7 +151,7 @@ def remove_iptv(sn):
         driver.find_element_by_name("pesquisar").click()
 
     except:
-        print('Erro ao remover o IPTV no Sistema de Ativação')
+        print('{0}: [CRITICAL] Erro ao remover o IPTV no Sistema de Ativação !!!'.format(time.strftime("%H:%M:%S")))
 
 def adicionar_iptv(sn):
     driver.get("http://ativacaofibra.redeunifique.com.br/cadastro/interno.php?pg=interno&pg1=novos_cadastros/adicionar_iptv2")
@@ -158,7 +162,7 @@ def adicionar_iptv(sn):
         print('{0}: Adicionando IPTV no Sistema de Ativação'.format(time.strftime("%H:%M:%S")))
         driver.find_element_by_name("pesquisar").click()
     except:
-        print('Erro ao adicionar o IPTV no Sistema de Ativação')
+        print('{0}: [CRITICAL] Erro ao adicionar o IPTV no Sistema de Ativação !!!'.format(time.strftime("%H:%M:%S")))
 
 def read_file(file_name):
     f = open(file_name, 'r')
@@ -196,6 +200,7 @@ if __name__ == '__main__':
         print('{0}: Iniciando configurações no PPPoE: {1}'.format(time.strftime("%H:%M:%S"), cliente))
         if login_zte(cliente):
             sn = get_sn()
+            print('{0}: ZTE SN: {1}'.format(time.strftime("%H:%M:%S"), sn))
             config_zte(cliente)
             sa_site_login()
             remove_iptv(sn)
@@ -205,7 +210,7 @@ if __name__ == '__main__':
             write_to_log('{0} - {1} - OK'.format(cliente,sn))
 
         else:
-            print('{0}: Erro ao realizar configurações no PPPoE: {1}, cliente desconectado'.format(time.strftime("%H:%M:%S"), cliente))
+            print('{0}: Erro ao realizar configurações no PPPoE: {1}'.format(time.strftime("%H:%M:%S"), cliente))
             write_to_log('{0} - Fail'.format(cliente))
         print()
         counter = counter + 1
