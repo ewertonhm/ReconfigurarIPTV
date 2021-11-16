@@ -24,7 +24,7 @@ senha = 'senha'
 compatible_ztes = ['F660','F670L','F670','F612W']
 
 # array com usuários e senhas dos ZTEs
-passwords = ['glock9mm','Unisc202@']
+passwords = ['multipro','admin']
 users = ['multipro','admin']
 
 
